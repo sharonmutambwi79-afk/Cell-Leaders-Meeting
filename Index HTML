@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cell Leaders Special Meeting</title>
+  <meta name="description" content="Special meeting for cell leaders with the regional secretary. RSVP required." />
+
+  <style>
+    :root{
+      --bg1:#070A14;
+      --bg2:#0B1630;
+      --card:#0b1224cc;
+      --card2:#0f1b36cc;
+      --text:#eaf0ff;
+      --muted:#b8c4e6;
+      --line:#ffffff22;
+      --accent:#7c3aed;
+      --accent2:#22c55e;
+      --danger:#ef4444;
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius: 22px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background: radial-gradient(1200px 700px at 15% 10%, #1b2a63 0%, transparent 60%),
+                  radial-gradient(900px 600px at 80% 20%, #4c1d95 0%, transparent 55%),
+                  linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    /* floating glow blobs */
+    .blob{
+      position:fixed;
+      inset:auto;
+      width:520px;height:520px;
+      background: radial-gradient(circle at 30% 30%, #a78bfa, transparent 55%),
+                  radial-gradient(circle at 70% 60%, #60a5fa, transparent 55%);
+      filter: blur(30px);
+      opacity:.25;
+      z-index:-1;
+      animation: drift 14s ease-in-out infinite alternate;
+    }
+    .blob.b2{
+      width:620px;height:620px;
+      left:-160px; top: 45vh;
+      opacity:.18;
+      animation-duration: 18s;
+    }
+    .blob.b1{
+      right:-220px; top:-160px;
+    }
+    @keyframes drift{
+      from{ transform: translate3d(0,0,0) scale(1); }
+      to  { transform: translate3d(-40px,30px,0) scale(1.06); }
+    }
+
+    .wrap{
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding: 10px 6px 22px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      opacity:.95;
+    }
+    .mark{
+      width:44px;height:44px;
+      border-radius:14px;
+      background:
+        linear-gradient(135deg, #8b5cf6, #60a5fa);
+      box-shadow: 0 12px 40px rgba(124,58,237,.25);
+      display:grid;
+      place-items:center;
+      font-weight:800;
+      letter-spacing:.5px;
+    }
+    .brand h3{
+      margin:0;
+      font-size:14px;
+      line-height:1.1;
+      color:var(--muted);
+      font-weight:600;
+    }
+    .brand strong{
+      display:block;
+      font-size:15px;
+      color:var(--text);
+      font-weight:800;
+      margin-top:2px;
+    }
+
+    .pill{
+      border:1px solid var(--line);
+      background: #ffffff0d;
+      padding:10px 14px;
+      border-radius:999px;
+      color:var(--muted);
+      font-size:13px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      backdrop-filter: blur(10px);
+    }
+    .dot{
+      width:8px;height:8px;border-radius:99px;
+      background: var(--accent2);
+      box-shadow: 0 0 0 6px rgba(34,197,94,.12);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:18px;
+    }
+    @media (max-width: 920px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      box-shadow: var(--shadow);
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero h1{
+      margin: 6px 0 10px;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: -0.6px;
+    }
+    .hero p{
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 15.5px;
+      max-width: 62ch;
+    }
+
+    .kpis{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+      margin-top: 18px;
+    }
+    @media (max-width: 520px){
+      .kpis{ grid-template-columns: 1fr; }
+    }
+    .kpi{
+      padding: 14px 14px;
+      border:1px solid var(--line);
+      border-radius: 16px;
+      background: #ffffff08;
+    }
+    .kpi .label{
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+    .kpi .value{
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .countdown{
+      margin-top: 18px;
+      border:1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px;
+      background:#ffffff08;
+      display:flex;
+      justify-content: space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .cdtitle{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .timer{
+      display:flex;
+      gap:10px;
+      align-items:stretch;
+      flex-wrap:wrap;
+    }
+    .tbox{
+      min-width: 86px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border:1px solid var(--line);
+      background:#0b1224aa;
+      text-align:center;
+    }
+    .tbox b{
+      display:block;
+      font-size: 20px;
+      letter-spacing:.4px;
+    }
+    .tbox span{
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      margin-top: 16px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      border:none;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+      transition: transform .08s ease, filter .15s ease;
+      user-select:none;
+    }
+    .btn:active{ transform: translateY(1px) scale(.99); }
+    .primary{
+      color:white;
+      background: linear-gradient(135deg, #7c3aed, #2563eb);
+      box-shadow: 0 14px 40px rgba(124,58,237,.25);
+    }
+    .ghost{
+      color: var(--text);
+      background: #ffffff0d;
+      border: 1px solid var(--line);
+    }
+    .whatsapp{
+      color:#052e16;
+      background: linear-gradient(135deg, #22c55e, #86efac);
+      box-shadow: 0 14px 40px rgba(34,197,94,.18);
+    }
+    .btn:hover{ filter: brightness(1.05); }
+
+    .right h2{
+      margin: 0 0 10px;
+      font-size: 20px;
+      letter-spacing: -0.3px;
+    }
+    form{
+      display:grid;
+      gap:10px;
+      margin-top: 12px;
+    }
+    .field{
+      display:grid;
+      gap:6px;
+    }
+    label{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight:700;
+    }
+    input, select, textarea{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: #0b1224aa;
+      color: var(--text);
+      outline:none;
+      font-size: 14px;
+    }
+    textarea{ min-height: 86px; resize: vertical; }
+    input::placeholder, textarea::placeholder{ color:#c8d2f044; }
+
+    .note{
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.45;
+      margin-top: 10px;
+    }
+
+    .toast{
+      display:none;
+      margin-top:12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      background: #22c55e1a;
+      color: #bbf7d0;
+      font-weight:700;
+    }
+    .toast.bad{
+      background: #ef44441a;
+      color: #fecaca;
+    }
+
+    footer{
+      margin-top: 18px;
+      padding: 0 8px;
+      color: #a7b2d9;
+      font-size: 12.5px;
+      text-align:center;
+      opacity:.9;
+    }
+    .small{
+      opacity:.85;
+    }
+
+    /* subtle shine */
+    .shine{
+      position:absolute;
+      width: 420px;
+      height: 420px;
+      right:-230px;
+      top:-240px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.18), transparent 60%);
+      transform: rotate(20deg);
+      pointer-events:none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="mark">BLW</div>
+        <h3>
+          <strong>Cell Leaders</strong>
+          Special Meeting Invite
+        </h3>
+      </div>
+
+      <div class="pill">
+        <span class="dot"></span>
+        RSVP Required
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- LEFT: Invite -->
+      <section class="card hero">
+        <div class="shine"></div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <span class="pill" style="padding:8px 12px; font-size:12px;">
+            🕊️ With the Regional Secretary
+          </span>
+          <span class="pill" style="padding:8px 12px; font-size:12px;">
+            ⏰ 8:00 PM – 9:30 PM
+          </span>
+        </div>
+
+        <h1>Special Meeting for Cell Leaders</h1>
+        <p>
+          You’re warmly invited to a focused meeting with the Regional Secretary.
+          Please RSVP so we can plan properly. We look forward to your presence.
+        </p>
+
+        <div class="kpis">
+          <div class="kpi">
+            <div class="label">Date</div>
+            <div class="value" id="eventDateText">—</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Time</div>
+            <div class="value">8:00 PM – 9:30 PM</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Location / Link</div>
+            <div class="value" id="eventPlaceText">TBA</div>
+          </div>
+        </div>
+
+        <div class="countdown">
+          <div class="cdtitle">⏳ Countdown to meeting</div>
+          <div class="timer" aria-live="polite">
+            <div class="tbox"><b id="d">—</b><span>Days</span></div>
+            <div class="tbox"><b id="h">—</b><span>Hours</span></div>
+            <div class="tbox"><b id="m">—</b><span>Minutes</span></div>
+            <div class="tbox"><b id="s">—</b><span>Seconds</span></div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="scrollToRsvp">✅ RSVP Now</button>
+          <button class="btn ghost" id="addToCalendar">🗓️ Add to Calendar</button>
+          <a class="btn whatsapp" id="whatsappBtn" href="#" target="_blank" rel="noopener">📲 WhatsApp Reminder</a>
+        </div>
+
+        <p class="note small">
+          Tip: Send this link in WhatsApp groups so everyone can RSVP easily.
+        </p>
+      </section>
+
+      <!-- RIGHT: RSVP -->
+      <aside class="card right" id="rsvpCard">
+        <h2>RSVP</h2>
+        <p class="note" style="margin:0 0 10px;">
+          Please fill this in to confirm attendance.
+        </p>
+
+        <!-- Replace YOUR_FORM_ID with your Formspree form id -->
+        <form id="rsvpForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <div class="field">
+            <label for="name">Full Name</label>
+            <input id="name" name="name" placeholder="e.g., Sharon Mutambwi" required />
+          </div>
+
+          <div class="field">
+            <label for="cell">Cell / Fellowship Name</label>
+            <input id="cell" name="cell" placeholder="e.g., Central East A" required />
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone Number (optional)</label>
+            <input id="phone" name="phone" placeholder="e.g., +1 204 ..." />
+          </div>
+
+          <div class="field">
+            <label for="attendance">Will you attend?</label>
+            <select id="attendance" name="attendance" required>
+              <option value="" selected disabled>Select one</option>
+              <option>Yes</option>
+              <option>Maybe</option>
+              <option>No</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="notes">Questions / Topics (optional)</label>
+            <textarea id="notes" name="notes" placeholder="Any questions you want addressed?"></textarea>
+          </div>
+
+          <button class="btn primary" type="submit">Submit RSVP</button>
+        </form>
+
+        <div class="toast" id="okToast">✅ RSVP submitted. Thank you!</div>
+        <div class="toast bad" id="badToast">❌ Something went wrong. Please try again.</div>
+
+        <p class="note">
+          If you prefer, you can also RSVP by replying “Yes/No” to the message, but the form is best.
+        </p>
+      </aside>
+    </div>
+
+    <footer>
+      <div>© BLW Canada • Cell Leaders Meeting</div>
+      <div class="small">Built with GitHub Pages</div>
+    </footer>
+  </div>
+
+  <script>
+    /***************
+     * EDIT THESE  *
+     ***************/
+    // Set your meeting date in Winnipeg time (America/Winnipeg)
+    // Example: March 10, 2026 at 8:00 PM local time:
+    const EVENT_START_LOCAL = "2026-03-10T20:00:00"; // <-- CHANGE THIS
+    const EVENT_END_LOCAL   = "2026-03-10T21:30:00"; // <-- CHANGE THIS
+    const EVENT_TITLE = "Cell Leaders Special Meeting (With Regional Secretary)";
+    const EVENT_LOCATION = "TBA (Zoom/Location link)"; // <-- CHANGE THIS
+    const RSVP_DEADLINE_TEXT = ""; // optional if you want to display it somewhere
+
+    // WhatsApp message template (change as you like)
+    const WHATSAPP_MESSAGE =
+      "Hello Cell Leader! This is a reminder about our Special Meeting with the Regional Secretary (8:00 PM – 9:30 PM). Please RSVP using the link. God bless you.";
+
+    /****************
+     * PAGE LOGIC   *
+     ****************/
+    const eventStart = new Date(EVENT_START_LOCAL);
+    const eventEnd = new Date(EVENT_END_LOCAL);
+
+    // Display date nicely (using user's locale)
+    const dateText = eventStart.toLocaleDateString(undefined, { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+    document.getElementById("eventDateText").textContent = dateText;
+    document.getElementById("eventPlaceText").textContent = EVENT_LOCATION;
+
+    // Countdown
+    function pad(n){ return String(n).padStart(2,'0'); }
+    function tick(){
+      const now = new Date();
+      const diff = eventStart - now;
+
+      if (diff <= 0){
+        document.getElementById("d").textContent = "00";
+        document.getElementById("h").textContent = "00";
+        document.getElementById("m").textContent = "00";
+        document.getElementById("s").textContent = "00";
+        return;
+      }
+
+      const totalSeconds = Math.floor(diff / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      document.getElementById("d").textContent = pad(days);
+      document.getElementById("h").textContent = pad(hours);
+      document.getElementById("m").textContent = pad(minutes);
+      document.getElementById("s").textContent = pad(seconds);
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    // Scroll to RSVP
+    document.getElementById("scrollToRsvp").addEventListener("click", () => {
+      document.getElementById("rsvpCard").scrollIntoView({behavior:"smooth", block:"start"});
+      setTimeout(() => document.getElementById("name").focus(), 350);
+    });
+
+    // WhatsApp reminder link (opens WhatsApp with prefilled message)
+    const waLink = "https://wa.me/?text=" + encodeURIComponent(WHATSAPP_MESSAGE + "\n\nInvite: " + window.location.href);
+    const waBtn = document.getElementById("whatsappBtn");
+    waBtn.href = waLink;
+
+    // Add to Calendar (.ics download)
+    function formatICSDate(dt){
+      // Convert to UTC format YYYYMMDDTHHMMSSZ
+      const iso = new Date(dt).toISOString().replace(/[-:]/g,'').split('.')[0] + "Z";
+      return iso;
+    }
+
+    document.getElementById("addToCalendar").addEventListener("click", () => {
+      const uid = "blw-cell-meeting-" + Date.now() + "@githubpages";
+      const ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//BLW Canada//Cell Leaders Meeting//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:${uid}
+DTSTAMP:${formatICSDate(new Date())}
+DTSTART:${formatICSDate(eventStart)}
+DTEND:${formatICSDate(eventEnd)}
+SUMMARY:${EVENT_TITLE}
+LOCATION:${EVENT_LOCATION}
+DESCRIPTION:Special Meeting for Cell Leaders with the Regional Secretary. RSVP: ${window.location.href}
+END:VEVENT
+END:VCALENDAR`;
+
+      const blob = new Blob([ics], {type:"text/calendar;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Cell-Leaders-Meeting.ics";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    // Form success message (Formspree redirect-free)
+    const form = document.getElementById("rsvpForm");
+    const okToast = document.getElementById("okToast");
+    const badToast = document.getElementById("badToast");
+
+    form.addEventListener("submit", async (e) => {
+      // If they haven't replaced the Formspree ID, don't pretend it worked
+      if (form.action.includes("YOUR_FORM_ID")) {
+        e.preventDefault();
+        badToast.style.display = "block";
+        badToast.textContent = "❌ Please set up Formspree and replace YOUR_FORM_ID in the code.";
+        okToast.style.display = "none";
+        return;
+      }
+
+      e.preventDefault();
+      okToast.style.display = "none";
+      badToast.style.display = "none";
+
+      try{
+        const data = new FormData(form);
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: data,
+          headers: { "Accept": "application/json" }
+        });
+
+        if (res.ok){
+          form.reset();
+          okToast.style.display = "block";
+          badToast.style.display = "none";
+          okToast.scrollIntoView({behavior:"smooth", block:"nearest"});
+        } else {
+          badToast.style.display = "block";
+          okToast.style.display = "none";
+        }
+      } catch(err){
+        badToast.style.display = "block";
+        okToast.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
